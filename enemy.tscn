@@ -1,0 +1,173 @@
+[gd_scene load_steps=15 format=3 uid="uid://5atpfmffy3j0"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_x2cci"]
+[ext_resource type="Texture2D" uid="uid://dnw2eiyxbl88t" path="res://Mini Pixel Pack 3/Enemies/Bon_Bon (16 x 16).png" id="2_dnw0u"]
+[ext_resource type="Texture2D" uid="uid://bh5itathw8l3" path="res://Mini Pixel Pack 3/Effects/Explosion (16 x 16).png" id="3_m77x5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3c0i4"]
+size = Vector2(14, 8)
+
+[sub_resource type="Animation" id="Animation_p1cte"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_m77x5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D2:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_svdp2"]
+resource_name = "explode"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_m77x5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D2:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2liq4"]
+_data = {
+"RESET": SubResource("Animation_p1cte"),
+"explode": SubResource("Animation_svdp2")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0lfl"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr25k"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3xs0"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wn8yo"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoxxc"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubt5w"]
+atlas = ExtResource("2_dnw0u")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uoxgl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0lfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr25k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3xs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wn8yo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qoxxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubt5w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="enemy" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_x2cci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3c0i4")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2liq4")
+}
+autoplay = "bounce"
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+show_behind_parent = true
+texture = ExtResource("3_m77x5")
+hframes = 6
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uoxgl")
+autoplay = "default"
+frame = 3
+frame_progress = 0.943602
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="area_shape_exited" from="." to="." method="_on_area_shape_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
